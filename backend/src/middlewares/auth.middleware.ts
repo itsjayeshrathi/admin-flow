@@ -14,7 +14,7 @@ const authMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {
+): Promise<any> => {
   try {
     const { authorization } = req.headers;
 
@@ -39,8 +39,8 @@ const authMiddleware = async (
   }
 };
 
-const checkRole = (roles: Roles[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+const checkRole = (roles: Roles) => {
+  return (req: Request, res: Response, next: NextFunction): any => {
     if (!roles.includes(req.user.user_role)) {
       return res.status(403).json({
         error: "You don't have permission to perform this action",
