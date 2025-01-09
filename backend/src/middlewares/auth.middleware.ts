@@ -50,6 +50,4 @@ const checkRole = (roles: Roles[]) => {
   };
 };
 
-export { checkRole };
-
-export { authMiddleware };
+export { authMiddleware, checkRole };

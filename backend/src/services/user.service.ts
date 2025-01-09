@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import { login_schema, user_schema } from "../validators/user.validator";
 import { generateToken } from "../utils/auth.util";
 
-const signUp = async (req: Request, res: Response) => {
+const signUp = async (req: Request, res: Response): Promise<any> => {
   try {
     const validatedData = await user_schema.parseAsync(req.body);
 
@@ -48,7 +48,7 @@ const signUp = async (req: Request, res: Response) => {
   }
 };
 
-const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response): Promise<any> => {
   try {
     const validatedData = await login_schema.parseAsync(req.body);
     const user = await User.findOne({ user_email: validatedData.user_email });
@@ -98,20 +98,4 @@ const login = async (req: Request, res: Response) => {
     });
   }
 };
-
-// const logout = async (req: Request, res: Response) => {
-//   try {
-//   } catch (error) {
-//     if (error instanceof Error) {
-//       return res.status(400).json({
-//         success: false,
-//         message: error.message,
-//       });
-//     }
-//     return res.status(500).json({
-//       success: false,
-//       message: "Internal server error",
-//     });
-//   }
-// };
 export { login, signUp };
