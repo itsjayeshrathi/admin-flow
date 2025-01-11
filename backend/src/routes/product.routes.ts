@@ -9,8 +9,8 @@ import {
 import { authMiddleware, checkRole } from "../middlewares/auth.middleware";
 import { Roles } from "../models/user.model";
 const router = express.Router();
-router.get("/", authMiddleware, checkRole(Roles.ADMIN), getAllProducts);
-router.get("/:id", authMiddleware, checkRole(Roles.ADMIN), getProductById);
+router.get("/", authMiddleware, getAllProducts);
+router.get("/:id", authMiddleware, getProductById);
 router.post("/", authMiddleware, checkRole(Roles.ADMIN), createProduct);
 router.put("/:id", authMiddleware, checkRole(Roles.ADMIN), editProduct);
 router.delete("/:id", authMiddleware, checkRole(Roles.ADMIN), deleteProduct);

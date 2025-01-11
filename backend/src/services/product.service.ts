@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { Product } from "../models/product.model";
 import { product_schema } from "../validators/product.validator";
 
+//need to add pagination over here
 const getAllProducts = async (req: Request, res: Response): Promise<any> => {
   try {
     const products = await Product.find({});
@@ -47,7 +48,7 @@ const getProductById = async (req: Request, res: Response): Promise<any> => {
 const createProduct = async (req: Request, res: Response): Promise<any> => {
   try {
     const validatedData = await product_schema.parseAsync(req.body);
-    const newProduct = await Product.create({ validatedData });
+    const newProduct = await Product.create(validatedData);
     return res.status(201).json({
       success: true,
       message: "product created successfully",
@@ -111,7 +112,9 @@ const deleteProduct = async (req: Request, res: Response): Promise<any> => {
     }
     const result = await Product.deleteOne({ id: productId });
     if (result.deletedCount === 1) {
-      return res.status(200).json({ success: true, message: "Product deleted successfully" });
+      return res
+        .status(200)
+        .json({ success: true, message: "Product deleted successfully" });
     }
   } catch (error) {
     if (error instanceof Error) {
