@@ -18,6 +18,7 @@ connectToDB();
 app.get("/healthy", (req: Request, res: Response) => {
   res.send("Hello, TypeScript with Node.js!");
 });
+
 app.use("/v1", routes);
 
 //starting lmao

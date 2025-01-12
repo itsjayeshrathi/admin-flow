@@ -27,6 +27,7 @@ const getProductById = async (req: Request, res: Response): Promise<any> => {
   try {
     const productId = req.params.id;
     const product = await Product.findById(productId);
+    console.log(product);
     return res.status(200).json({
       success: true,
       product: product,
@@ -70,7 +71,7 @@ const createProduct = async (req: Request, res: Response): Promise<any> => {
 const editProduct = async (req: Request, res: Response): Promise<any> => {
   try {
     const productId = req.params.id;
-    const product = await Product.findOne({ id: productId });
+    const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -78,10 +79,15 @@ const editProduct = async (req: Request, res: Response): Promise<any> => {
       });
     }
     const validatedData = await product_schema.parseAsync(req.body);
-    const updatedProduct = await Product.updateOne(
-      { id: productId },
-      { ...validatedData }
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      validatedData,
+      {
+        new: true, 
+        runValidators: true, 
+      }
     );
+
     return res.status(200).json({
       success: true,
       message: "product updated successfully",
@@ -102,15 +108,16 @@ const editProduct = async (req: Request, res: Response): Promise<any> => {
 };
 const deleteProduct = async (req: Request, res: Response): Promise<any> => {
   try {
+    console.log("here");
     const productId = req.params.id;
-    const product = await Product.findOne({ id: productId });
+    const product = await Product.findById(productId);
     if (!product) {
       return res.status(404).json({
         success: false,
         message: "Product not found",
       });
     }
-    const result = await Product.deleteOne({ id: productId });
+    const result = await Product.deleteOne({ _id: productId });
     if (result.deletedCount === 1) {
       return res
         .status(200)

@@ -12,6 +12,6 @@ const router = express.Router();
 router.get("/", authMiddleware, getAllProducts);
 router.get("/:id", authMiddleware, getProductById);
 router.post("/", authMiddleware, checkRole(Roles.ADMIN), createProduct);
-router.put("/:id", authMiddleware, checkRole(Roles.ADMIN), editProduct);
-router.delete("/:id", authMiddleware, checkRole(Roles.ADMIN), deleteProduct);
+router.put("/edit/:id", authMiddleware, checkRole(Roles.ADMIN), editProduct);
+router.delete("/delete/:id", authMiddleware, checkRole(Roles.ADMIN), deleteProduct);
 export default router;
